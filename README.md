@@ -1,73 +1,112 @@
-# 🐳 Prometheus y Grafana con Docker Compose
+# Practica Final DevOps 🚀
 
-## 📝 Descripción
-Este proyecto configura un entorno de monitoreo utilizando Prometheus y Grafana, orquestado con Docker Compose. Incluye:
-- **Prometheus**: Para la recolección de métricas.
-- **Grafana**: Para la visualización de métricas en dashboards.
-- **Node Exporter**: Para exponer métricas del host (o del contenedor en este caso).
-
-Este proyecto corresponde a la materia de Electiva 2 (DevOps) impartida por el profesor **Elvys Cruz**.
+Este proyecto es una aplicación web simple que sirve una página HTML estática utilizando Nginx dentro de un contenedor Docker. Incluye pruebas unitarias para verificar la estructura básica del HTML y un flujo de trabajo de GitHub Actions para la integración continua.
 
 ## 👤 Autor
 - **Nombre:** Christian Gil
 - **Matrícula:** 2012-1036
 
-## 🚀 Instrucciones de Uso
+## 📁 Estructura del Proyecto
+
+```
+.
+├── .git/                 # Directorio de Git
+├── .github/              # Configuración de GitHub Actions
+│   └── workflows/
+│       └── python-test.yml # Flujo de trabajo para pruebas unitarias
+├── .gitignore            # Archivos ignorados por Git
+├── Dockerfile            # Define la imagen Docker para Nginx
+├── img/                  # Contiene imágenes para el README
+│   ├── img1-dockerbuild.png
+│   ├── img2-docker.png
+│   ├── img3-webUp.png
+│   └── img4-github-actions.png
+├── LICENSE               # Licencia del proyecto
+├── README.md             # Este archivo
+├── requirements.txt      # Dependencias de Python para las pruebas
+├── src/                  # Código fuente de la página web
+│   └── index.html        # Página HTML estática
+└── test/                 # Pruebas unitarias
+    └── test_index.py     # Prueba para index.html
+```
+
+## ✅ Requisitos Previos
+
+*   Python 3.x
+*   pip (Administrador de paquetes de Python)
+*   Docker
+*   Git
+
+## ⚙️ Configuración y Ejecución
+
 1.  **Clonar el repositorio:**
     ```bash
-    git clone https://github.com/chrisfelixgil/prometheus-grafana-devops.git
-    cd prometheus-grafana-devops
+    git clone https://github.com/chrisfelixgil/practica-final-devops
+    cd practica-final
     ```
-2.  **Construir e iniciar los contenedores:**
-    Asegúrate de tener Docker y Docker Compose instalados.
+
+2.  **Instalar dependencias de Python (para pruebas):**
     ```bash
-    docker-compose up -d
+    pip install -r requirements.txt
     ```
-    Esto iniciará los servicios de Prometheus, Grafana y Node Exporter en segundo plano.
 
-3.  **Acceder a los servicios:**
-    *   **Prometheus**: Abre tu navegador y ve a `http://localhost:9090`
-    *   **Grafana**: Abre tu navegador y ve a `http://localhost:3000`
-        *   **Usuario:** admin
-        *   **Contraseña:** admin (definida en `docker-compose.yml`)
+## 🧪 Pruebas Unitarias
 
-4.  **Configurar Grafana:**
-    *   Inicia sesión en Grafana.
-    *   Agrega Prometheus como fuente de datos (Data Source):
-        *   **Tipo:** Prometheus
-        *   **URL:** `http://prometheus:9090` (Grafana se comunica con Prometheus usando el nombre del servicio dentro de la red Docker)
-    *   Importa o crea dashboards para visualizar las métricas (por ejemplo, dashboards para Node Exporter).
+Las pruebas unitarias verifican la estructura básica del archivo `src/index.html`.
 
-5.  **Detener los contenedores:**
+Para ejecutar las pruebas:
+
+```bash
+python -m unittest discover test
+```
+
+## 🐳 Uso de Docker
+
+El `Dockerfile` configura un contenedor Nginx para servir la página `index.html`.
+
+1.  **Construir la imagen Docker:**
     ```bash
-    docker-compose down
+    docker build -t pagina-estatica .
+    ```
+    ![Docker Build](img/img1-dockerbuild.png)
+
+2.  **Verificar la imagen creada:**
+    ```bash
+    docker images
+    ```
+    ![Docker Images](img/img2-docker.png)
+
+3.  **Ejecutar el contenedor Docker:**
+    ```bash
+    docker run -d -p 8080:80 --name mi-pagina-web pagina-estatica
+    ```
+    *   `-d`: Ejecuta el contenedor en segundo plano.
+    *   `-p 8080:80`: Mapea el puerto 8080 del host al puerto 80 del contenedor.
+    *   `--name mi-pagina-web`: Asigna un nombre al contenedor.
+
+4.  **Acceder a la página:**
+    Abre tu navegador web y ve a `http://localhost:8080`.
+    ![Página Web Arriba](img/img3-webUp.png)
+
+5.  **Detener y eliminar el contenedor (opcional):**
+    ```bash
+    docker stop mi-pagina-web
+    docker rm mi-pagina-web
     ```
 
-## ⚙️ Configuración
--   **`docker-compose.yml`**: Define los servicios (Prometheus, Grafana, Node Exporter), volúmenes, puertos y redes.
--   **`prometheus.yml`**: Configuración de Prometheus, define los `scrape_configs` para recolectar métricas de sí mismo y de Node Exporter.
+## 🔄 Integración Continua (GitHub Actions)
 
-## 📸 Capturas de Pantalla
-A continuación, se muestran capturas de pantalla de los servicios en funcionamiento:
+Este repositorio utiliza GitHub Actions para ejecutar automáticamente las pruebas unitarias cada vez que se realiza un push a la rama `main` o se crea un Pull Request hacia `main`.
 
-1.  Docker Compose up
-    ![Captura 1](./img/img1.png)
-2.  Docker
-    ![Captura 2](./img/img2.png)
-3.  Grafana Data Source Configuration
-    ![Captura 3](./img/img3.png)
-4.  Grafana Dashboard Example
-    ![Captura 4](./img/img4.png)
+Puedes ver el estado de las ejecuciones en la pestaña "Actions" de tu repositorio en GitHub.
 
-## 💡 Tecnologías Utilizadas
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![GitHub Actions](img/img4-github-actions.png)
 
 ## 🙏 Créditos
 Este proyecto fue desarrollado como parte de la materia de Electiva 2 (DevOps) impartida por el profesor **Elvys Cruz**.
 
 ## 📄 Licencia
-Este proyecto se distribuye bajo la licencia MIT.
+
+Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
 
 
