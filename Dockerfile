@@ -9,6 +9,3 @@ COPY src/index.html /usr/share/nginx/html/index.html
 
 # Expose port 80 to the outside world
 EXPOSE 80
-
-# The base Nginx image already has a CMD instruction, so we don't need to specify one.
-# CMD ["nginx", "-g", "daemon off;"] 
