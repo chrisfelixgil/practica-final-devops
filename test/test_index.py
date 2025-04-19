@@ -6,7 +6,7 @@ class TestIndexHTML(unittest.TestCase):
 
     def setUp(self):
         script_dir = os.path.dirname(__file__) 
-        rel_path = "../src/index.html"
+        rel_path = "../index.html"
         abs_file_path = os.path.join(script_dir, rel_path)
         try:
             with open(abs_file_path, 'r', encoding='utf-8') as f:

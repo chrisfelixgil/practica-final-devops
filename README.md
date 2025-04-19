@@ -21,11 +21,10 @@ Este proyecto es una aplicación web simple que sirve una página HTML estática
 │   ├── img2-docker.png
 │   ├── img3-webUp.png
 │   └── img4-github-actions.png
+├── index.html            # Página HTML estática
 ├── LICENSE               # Licencia del proyecto
 ├── README.md             # Este archivo
 ├── requirements.txt      # Dependencias de Python para las pruebas
-├── src/                  # Código fuente de la página web
-│   └── index.html        # Página HTML estática
 └── test/                 # Pruebas unitarias
     └── test_index.py     # Prueba para index.html
 ```
@@ -52,7 +51,7 @@ Este proyecto es una aplicación web simple que sirve una página HTML estática
 
 ## 🧪 Pruebas Unitarias
 
-Las pruebas unitarias verifican la estructura básica del archivo `src/index.html`.
+Las pruebas unitarias verifican la estructura básica del archivo `index.html`.
 
 Para ejecutar las pruebas:
 
